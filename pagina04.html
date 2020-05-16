@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>JQuery UI</title>
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+	<script type="text/javascript" src="js/jquery-3.5.0.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#menu").menu();
+		});
+	</script>
+	<style type="text/css">
+		.ui-menu{ width: 150px; }
+	</style>
+</head>
+<body>
+
+	<ul id="menu">
+		<li><div>Inicio</div></li>
+		<!--El elemento <div></div> no es tan necesario, solo si se quiere agregar el diseño de la flecha en el menú-->
+		<!--<li>Diseño Web</li>-->
+		<li><div>Diseño Web</div>
+			<ul>
+				<li><div>HTML5</div></li>
+				<li><div>CSS3</div></li>
+				<li><div>Bootstrap</div></li>
+			</ul>
+		</li>
+		<li>
+			<div><span class="ui-icon ui-icon-disk"></span>Guardar</div>
+		</li>
+		<li class="ui-state-disabled">
+			<div><span class="ui-icon ui-icon-print"></span>Imprimir</div>
+		</li>
+		<li>
+			<div><span class="ui-icon ui-icon-close"></span>Cerrar</div>
+		</li>
+	</ul>
+
+</body>
+</html>
