@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Servicio de Catering</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/one-page-wonder.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>	
+	<script type="text/javascript">
+		var url = 'list.php?tipo=';
+                var urlWhatsApp = 'https://wa.me/51941708209?text='
+		$(document).ready(function(){
+                    var showProducts = function(tipo){
+                        /*$.getJSON(url+marca).done(function(response){
+                            var productList = '';
+                            $.each(response, function(index, prod){
+                                    //console.log(index + '] ' + prod.nom);
+                                    productList += '<div class="col-sm-4">';
+                                    productList += '<p><b>' + prod.nom + '</b><br>' + prod.mar + '</p>';
+                                    productList += '<img src="img/'+ prod.img + '" class="img-responsive" style="width:100%" />';
+                                    productList += '<p>Precio:' + prod.pre + '</p>';
+                                    productList += '<p>Cantidad:' + prod.can + '</p>';
+                                    productList += '<button>Comprar</button><br><br>';
+                                    productList += '</div>';
+                            });
+                            $('#products').html(productList);
+                        });*/
+                        
+                        $.post("listPost.php", {tipo: tipo}, function(result){
+                            var list = JSON.parse(result);
+                            //var productList = '';
+                            $.each(list, function(index, prod){
+                                
+                                    //productList += '<div class="col-sm-4">';
+                                    //productList += '<p><b>' + prod.nom + '</b><br>' + prod.mar + '</p>';
+                                    //productList += '<img src="img/'+ prod.img + '" class="img-responsive" style="width:100%" />';
+                                    //productList += '<p>Precio:' + prod.pre + '</p>';
+                                    //productList += '<p>Cantidad:' + prod.can + '</p>';
+                                    //productList += '<button>Comprar</button><br><br>';
+                                    //productList += '</div>';
+                                    
+                                    //Título
+                                    var product = $("<div></div>");
+                                    product.attr("class","col-sm-4");
+                                    var prodContent = $("<p></p>");
+                                    var prodContentTitle = $("<h3></h3>");
+                                    prodContentTitle.html(prod.nom);
+                                    
+                                    //Contenido
+                                    var prodImg = $("<img></img>");
+                                    prodImg.attr("src","img/"+prod.img);
+                                    prodImg.attr("class","img-responsive");
+                                    prodImg.attr("class","img-fluid rounded-circle");
+                                    prodImg.attr("style","width:100%");
+                                    
+                                    var prodSubti = $("<p></p>");
+                                    prodSubti.html("Subtipo:" + " " + prod.subti);
+                                    //var prodCantidad = $("<p></p>");
+                                    //prodCantidad.html("Subtipo:" + prod.can);
+                                    var prodButton= $("<button></button>");
+                                    prodButton.attr("class","btn btn-primary btn-xl rounded-pill mt-5");
+                                    prodButton.html("Comprar");
+                                    prodButton.attr("data-nombre",prod.nom);
+                                    prodButton.click(function(){
+                                        var nombre = $(this).data('nombre');
+                                        window.open(urlWhatsApp + "Deseo el producto " + nombre);
+                                    });
+                                    
+                                    prodContent.append(prodContentTitle, "<br>", prod.tip, "<br>", "Subtipo:" + prod.subti);
+                                    product.append(prodContent, prodImg, prodButton,"<br><br><br><br><br><br><br><br><br><br>");
+                                    product.appendTo('#products'); 
+                                    
+                            });
+                        });
+                    }
+                    
+                    $(".selTipo").click(function(){
+                        var tipo = $(this).data('tipo');
+                        showProducts(tipo);
+                    });
+                    
+                    showProducts('');
+                    
+		});
+        </script>
+	<style type="text/css">
+		.navbar{
+			margin-bottom: 0;
+			border-radius: 0; 
+		}
+		footer{
+			background-color: #f2f2f2;
+			padding: 25px;
+		}
+	</style>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Bienvenidos</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Regístrate</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Iniciar Sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="masthead text-center text-white">
+    <div class="masthead-content">
+      <div class="container">
+        <h1 class="masthead-heading mb-0">SWEPRET</h1>
+        <h2 class="masthead-subheading mb-0">Servicio de Catering</h2>
+        <a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">Leer más</a>
+      </div>
+    </div>
+    <div class="bg-circle-1 bg-circle"></div>
+    <div class="bg-circle-2 bg-circle"></div>
+    <div class="bg-circle-3 bg-circle"></div>
+    <div class="bg-circle-4 bg-circle"></div>
+  </header>
+  
+  <div class="container-fluid bg-3 text-center">
+      <br><br>
+      <h2 class="display-4">Mi catálogo</h2>
+        <a href="#" class="selTipo" data-tipo="Bocaditos">Bocaditos</a> &nbsp;&nbsp;
+        <a href="#" class="selTipo" data-tipo="Criollo">Buffet Criollo</a> &nbsp;&nbsp; 
+        <a href="#" class="selTipo" data-tipo="Marino">Buffet Marino</a> &nbsp;&nbsp; 
+        <a href="#" class="selTipo" data-tipo="Internacional">Buffet Internacional</a> &nbsp;&nbsp; 
+        <br><br><br><br>
+        <div id="products" class="row">
+
+        </div>
+    </div>
+
+    <br><br>
+    
+    <section class="page-section bg-primary text-white mb-0" id="about">
+        <br><br>
+            <div class="container">
+                <!-- About Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-white">Contáctenos</h2>
+
+                <!-- About Section Button-->
+                <div class="text-center mt-4">
+                    <a class="btn btn-xl btn-outline-light" href="mailto:laraxiam04@gmail.com">
+                        <!--<svg class="svg-inline--fa fa-envelope fa-w-16 mr-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path></svg>--><!-- <i class="fas fa-envelope mr-2"></i> -->
+                        laraxiam04@gmail.com
+                    </a>
+                </div>
+                <div class="text-center mt-4">
+                    <a class="btn btn-xl btn-outline-light" href="tel:+51941708209">
+                        <!--<svg class="svg-inline--fa fa-phone fa-w-16 mr-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="phone" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z"></path></svg>--><!-- <i class="fas fa-phone mr-2"></i> -->
+                        +51 941 708 209
+                    </a>
+                </div>
+            </div>
+        <br><br>
+     </section>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-black">
+    <div class="container">
+      <p class="m-0 text-center text-white small">Copyright &copy; Swepret 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
+

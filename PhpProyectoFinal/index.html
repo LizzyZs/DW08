@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Mi catalogo de productos</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>	
+	<script type="text/javascript">
+		var url = 'list.php?tipo=';
+                var urlWhatsApp = 'https://wa.me/51941708209?text='
+		$(document).ready(function(){
+                    var showProducts = function(tipo){
+                        /*$.getJSON(url+marca).done(function(response){
+                            var productList = '';
+                            $.each(response, function(index, prod){
+                                    //console.log(index + '] ' + prod.nom);
+                                    productList += '<div class="col-sm-4">';
+                                    productList += '<p><b>' + prod.nom + '</b><br>' + prod.mar + '</p>';
+                                    productList += '<img src="img/'+ prod.img + '" class="img-responsive" style="width:100%" />';
+                                    productList += '<p>Precio:' + prod.pre + '</p>';
+                                    productList += '<p>Cantidad:' + prod.can + '</p>';
+                                    productList += '<button>Comprar</button><br><br>';
+                                    productList += '</div>';
+                            });
+                            $('#products').html(productList);
+                        });*/
+                        
+                        $.post("listPost.php", {tipo: tipo}, function(result){
+                            var list = JSON.parse(result);
+                            //var productList = '';
+                            $.each(list, function(index, prod){
+                                
+                                    //productList += '<div class="col-sm-4">';
+                                    //productList += '<p><b>' + prod.nom + '</b><br>' + prod.mar + '</p>';
+                                    //productList += '<img src="img/'+ prod.img + '" class="img-responsive" style="width:100%" />';
+                                    //productList += '<p>Precio:' + prod.pre + '</p>';
+                                    //productList += '<p>Cantidad:' + prod.can + '</p>';
+                                    //productList += '<button>Comprar</button><br><br>';
+                                    //productList += '</div>';
+                                    
+                                    //Título
+                                    var product = $("<div></div>");
+                                    product.attr("class","col-sm-4");
+                                    var prodContent = $("<p></p>");
+                                    var prodContentTitle = $("<b></b>");
+                                    prodContentTitle.html(prod.nom);
+                                    
+                                    //Contenido
+                                    var prodImg = $("<img></img>");
+                                    prodImg.attr("src","img/"+prod.img);
+                                    prodImg.attr("class","img-responsive");
+                                    prodImg.attr("style","width:100%");
+                                    
+                                    var prodSubti = $("<p></p>");
+                                    prodSubti.html("Subtipo:" + " " + prod.subti);
+                                    //var prodCantidad = $("<p></p>");
+                                    //prodCantidad.html("Subtipo:" + prod.can);
+                                    var prodButton= $("<button></button>");
+                                    prodButton.html("Comprar");
+                                    prodButton.attr("data-nombre",prod.nom);
+                                    prodButton.click(function(){
+                                        var nombre = $(this).data('nombre');
+                                        window.open(urlWhatsApp + "Deseo el producto " + nombre);
+                                    });
+                                    
+                                    prodContent.append(prodContentTitle, "<br>", prod.tip, "<br>", "Subtipo:" + prod.subti);
+                                    product.append(prodContent, prodImg, prodButton,"<br><br><br>");
+                                    product.appendTo('#products'); 
+                                    
+                            });
+                        });
+                    }
+                    
+                    $(".selTipo").click(function(){
+                        var tipo = $(this).data('tipo');
+                        showProducts(tipo);
+                    });
+                    
+                    showProducts('');
+                    
+		});
+	</script>
+	<style type="text/css">
+		.navbar{
+			margin-bottom: 0;
+			border-radius: 0; 
+		}
+		footer{
+			background-color: #f2f2f2;
+			padding: 25px;
+		}
+	</style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
+            <a class="navbar-brand" href="#">Menu</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active"> 
+                          <a class="nav-link" href="#">Inicio</a> 
+                        </li>
+                        <li class="nav-item"> 
+                                <a class="nav-link" href="#">Contacto</a> 
+                        </li>
+                    </ul>
+            </div>
+    </nav>
+
+    <div class="container-fluid bg-3 text-center">
+        <h3>Mi catálogo</h3>
+        <a href="#" class="selTipo" data-tipo="Bocaditos">Bocaditos</a> &nbsp;&nbsp;
+        <a href="#" class="selTipo" data-tipo="Criollo">Buffet Criollo</a> &nbsp;&nbsp; 
+        <a href="#" class="selTipo" data-tipo="Marino">Buffet Marino</a> &nbsp;&nbsp; 
+        <a href="#" class="selTipo" data-tipo="Internacional">Buffet Internacional</a> &nbsp;&nbsp; 
+        <br><br>
+        <div id="products" class="row">
+
+        </div>
+    </div>
+
+    <br><br>
+
+    <footer class="container-fluid text-center">
+            <p>Contáctenos</p>
+    </footer>
+</body>
+</html>
